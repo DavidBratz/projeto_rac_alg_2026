@@ -51,6 +51,26 @@ def registrar_partidas():
     gols2 = int(input(f"Quantos gols o {time2} marcou? "))
     print(f"\nResultado: {time1} {gols1} x {gols2} {time2}")
 
+    # Atualizar gols pró
+    times[time1]["gols_pro"] += gols1
+    times[time2]["gols_pro"] += gols2
+
+    # Atualizar gols contra
+    times[time1]["gols_contra"] += gols2
+    times[time2]["gols_contra"] += gols1
+
+    # Atualizar saldo de gols
+    times[time1]["saldo_gols"] = (
+        times[time1]["gols_pro"] -
+        times[time1]["gols_contra"]
+    )
+
+    times[time2]["saldo_gols"] = (
+        times[time2]["gols_pro"] -
+        times[time2]["gols_contra"]
+    )
+
+
     if gols1 > gols2:
         print(f"Vencedor: {time1}")
         times[time1]["pontos"] += 3
@@ -72,13 +92,41 @@ def registrar_partidas():
 
     print("Estatísticas e pontuações atualizadas com sucesso!")
 
+def mostrar_classificacao():
+
+        if len(times) == 0:
+            print("Nenhum time cadastrado.")
+            return
+
+        print("\n=== CLASSIFICAÇÃO ===")
+
+        for nome in times:
+            print(f"{nome} - {times[nome]['pontos']} pontos")
+
+
+# Mostrar campeão
+def mostrar_campeao():
+
+        if len(times) == 0:
+            print("Nenhum time cadastrado.")
+            return
+
+        campeao = max(times, key=lambda nome: times[nome]["pontos"])
+
+        print("\n=== CAMPEÃO ===")
+        print(f"O campeão é: {campeao}")
+
+
+
 # Menu Principal Único
 while True:
     print("\n=== CAMPEONATO ===")
     print("1 - Cadastrar time")
     print("2 - Listar times")
     print("3 - Registrar partida")
-    print("4 - Sair")
+    print("4 - Mostrar classificação")
+    print("5 - Mostrar campeão")
+    print("6 - Sair")
     opcao = input("Escolha uma opção: ")
    
     if opcao == "1":
@@ -88,27 +136,13 @@ while True:
     elif opcao == "3":
         registrar_partidas()
     elif opcao == "4":
-        print("Encerrando...")
-        break
-    else:
-        print("Opção inválida!")
+        mostrar_classificacao()
+    elif opcao == "5":
+        mostrar_campeao()
+    elif opcao == "6":
+         print("Encerrando...")
+         break
 
-        # teste parte1 parte2
-while True:
-    print("\n=== CAMPEONATO ===")
-    print("1 - Cadastrar time")
-    print("2 - Listar times")
-    print("3 - Registrar partida")
-    print("4 - Sair")
-    opcao = input("Escolha uma opção: ")
-    if opcao == "1":
-        cadastrar_time()
-    elif opcao == "2":
-        listar_times()
-    elif opcao == "3":
-        registrar_partidas()
-    elif opcao == "4":
-        print("Encerrando...")
-        break
+
     else:
         print("Opção inválida!")
