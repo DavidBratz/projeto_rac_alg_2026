@@ -94,28 +94,40 @@ def registrar_partidas():
 
 def mostrar_classificacao():
 
-        if len(times) == 0:
-            print("Nenhum time cadastrado.")
-            return
+    if len(times) == 0:
+        print("Nenhum time cadastrado.")
+        return
 
-        print("\n=== CLASSIFICAÇÃO ===")
+    print("\n=== CLASSIFICAÇÃO ===")
 
-        for nome in times:
-            print(f"{nome} - {times[nome]['pontos']} pontos")
+    for nome in times:
+        print(
+            f"{nome} - "
+            f"{times[nome]['pontos']} pts | "
+            f"V: {times[nome]['vitorias']} | "
+            f"E: {times[nome]['empates']} | "
+            f"D: {times[nome]['derrotas']} | "
+            f"SG: {times[nome]['saldo_gols']}"
+        )
 
 
-# Mostrar campeão
 def mostrar_campeao():
 
-        if len(times) == 0:
-            print("Nenhum time cadastrado.")
-            return
+    if len(times) == 0:
+        print("Nenhum time cadastrado.")
+        return
 
-        campeao = max(times, key=lambda nome: times[nome]["pontos"])
+    campeao = ""
+    maior_pontuacao = -1
 
-        print("\n=== CAMPEÃO ===")
-        print(f"O campeão é: {campeao}")
+    for nome in times:
+        if times[nome]["pontos"] > maior_pontuacao:
+            maior_pontuacao = times[nome]["pontos"]
+            campeao = nome
 
+    print("\n=== CAMPEÃO ===")
+    print(f"O campeão é: {campeao}")
+    print(f"Pontuação: {maior_pontuacao} pontos")
 
 
 # Menu Principal Único
